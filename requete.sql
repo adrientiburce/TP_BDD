@@ -1,0 +1,65 @@
+--########### EXO 1 ###########@
+
+-- 1. Lister la flotte de camions de l’entreprise. Indiquez à chaque fois le chauffeur attitré.
+SELECT immat, c.nom
+FROM camion
+         JOIN chauffeur c on camion.pk = c.camion_id;
+
+-- 2. Lister les livraisons que doit effectuer le camion AC-543-AG pour sa tournée du 15/11.
+SELECT lc.pk, c.produit, c.quantite
+FROM livraison
+         JOIN livraison_commande lc on livraison.pk = lc.livraison_id
+         JOIN commande c on c.pk = lc.commande_id
+WHERE livraison.pk = 1;
+
+-- 3. Lister les camions en réserve (camion sans chauffeur attitré).
+SELECT *
+FROM camion
+WHERE pk not in (SELECT camion_id FROM chauffeur);
+
+-- 4. Lister les commandes qui ne sont pas encore prévues (pas de livraison programmée)
+SELECT *
+FROM commande
+WHERE pk not in (SELECT commande_id FROM livraison_commande);
+
+
+
+--########### EXO 2 ###########
+--1)  Le chauffeur Henry LEROC’H adonné sa démission.
+
+DELETE
+FROM chauffeur
+WHERE nom LIKE ('Henry LE ROCH');
+
+-- 2) ordre de mission pour Jacques WEBER
+INSERT INTO livraison (pk, chauffeur_id, date_chargement, quai_id)
+VALUES (3,
+        (SELECT pk FROM chauffeur WHERE nom LIKE ('Jacques WEBER')),
+        '15:00',
+        (SELECT pk FROM quai WHERE ville LIKE ('NICE')));
+
+INSERT INTO livraison_commande(date_livraison, livraison_id, commande_id)
+VALUES ('7:00', 3, 8);
+VALUES ('7:00', 3, 9);
+
+-- ########################  --
+
+-- Requetes pour le bordereau
+
+SELECT e.nom, d.adresse, date_livraison, c.produit, c.quantite
+FROM livraison
+         JOIN livraison_commande lc on livraison.pk = lc.livraison_id
+         JOIN commande c on c.pk = lc.commande_id
+         JOIN depot d on d.pk = c.depot_id
+         JOIN entreprise e on e.pk = d.entreprise_id
+         JOIN chauffeur on chauffeur.pk = livraison.chauffeur_id
+WHERE chauffeur.nom = 'Arthur DENT';
+
+SELECT date_chargement, q.adresse, q.ville
+FROM livraison
+         JOIN chauffeur c on c.pk = livraison.chauffeur_id
+         JOIN quai q on livraison.quai_id = q.pk
+WHERE c.nom = 'Arthur DENT';
+
+
+

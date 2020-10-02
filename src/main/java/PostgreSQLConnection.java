@@ -1,11 +1,40 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Properties;
 
 public class PostgreSQLConnection {
 
+
+    /**
+     * enable to read config values from a file
+     * @param key of the value in the config file
+     * @return the secret value
+     */
+    public String getConfigValue(String key) {
+        Properties prop = new Properties();
+        String fileName = "app.config";
+        InputStream is = null;
+        try {
+            is = new FileInputStream(fileName);
+        } catch (FileNotFoundException ex) {
+            System.out.println("error");
+            return "";
+        }
+        try {
+            prop.load(is);
+        } catch (IOException ex) {
+            System.out.println("error");
+            return "";
+        }
+        return prop.getProperty(key);
+    }
 
     public ResultSet executeSQLQuerry(String sqlRequest) {
         Connection c = null;
@@ -14,8 +43,10 @@ public class PostgreSQLConnection {
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:5432/bofuri",
-                            "postgres", "tillot03");
+                    .getConnection(
+                            "jdbc:postgresql://localhost:5432/bofuri",
+                            this.getConfigValue("POSTGRES_USER"),
+                            this.getConfigValue("POSTGRES_PASSWORD"));
 
             stmt = c.createStatement();
             res = stmt.executeQuery(sqlRequest);

@@ -6,7 +6,10 @@ import java.util.HashMap;
  */
 public class Livraison {
 
-
+    /**
+     * affiche les informations pour le chauffeur
+     * @param args
+     */
     public static void main(String[] args) {
         PostgreSQLConnection psql = new PostgreSQLConnection();
         HashMap<String, String> res = psql.getQuaiAndDate();
@@ -17,12 +20,22 @@ public class Livraison {
     }
 
 
+    /**
+     * affiche les infos de chargement
+     * @param chauffeur
+     * @param quai
+     * @param date
+     */
     public static void printBordereau(String chauffeur, String quai, String date) {
         System.out.format("%15s%15s\n", "Chauffeur", chauffeur);
         System.out.format("%15s    %15s\n", "Quai chargement", quai);
         System.out.format("%15s    %15s\n", "Date chargement", date);
     }
 
+    /**
+     * affiche les infos de livraisons
+     * @param psql
+     */
     public static void printLivraison(PostgreSQLConnection psql) {
         System.out.format("%15s%15s  %15s       %15s%15s\n", "Société", "Dépot", "Date", "Produit", "Quantité");
 

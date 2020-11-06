@@ -27,9 +27,12 @@ WHERE pk not in (SELECT commande_id FROM livraison_commande);
 --########### EXO 2 ###########
 --1)  Le chauffeur Henry LEROC’H adonné sa démission.
 
-DELETE
-FROM chauffeur
-WHERE nom LIKE ('Henry LE ROCH');
+-- // Etape 1 : ajout d'une colonne  isActive
+ALTER TABLE public.chauffeur
+    ADD COLUMN
+        isActive BOOLEAN;
+-- Etape 2 : on remplit ce champ à false pour ce chauffeur
+UPDATE chauffeur SET is_active = false WHERE nom LIKE ('Henry LE ROCH');
 
 -- 2) ordre de mission pour Jacques WEBER
 INSERT INTO livraison (pk, chauffeur_id, date_chargement, quai_id)

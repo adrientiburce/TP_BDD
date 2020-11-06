@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_14">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -12,5 +12,8 @@
     <orderEntry type="jdk" jdkName="14" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="postgresql-42.2.16" level="project" />
+    <orderEntry type="library" name="org.mongodb:mongodb-driver:3.7.0" level="project" />
+    <orderEntry type="library" name="com.datastax.cassandra:cassandra-driver-examples-stress:2.1.5" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.7.1" level="project" />
   </component>
 </module>
